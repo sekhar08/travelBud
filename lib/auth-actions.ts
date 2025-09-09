@@ -1,17 +1,11 @@
+"use server";
+
 import { signIn, signOut } from "@/auth";
 
 export const login = async () => {
-    try {
-        await signIn("github", { redirectTo: "/" });
-    } catch (error) {
-        console.error("Error during sign-in:", error);
-    }
-}
+    return signIn("github", { redirectTo: "/" });
+};
 
 export const logout = async () => {
-    try {
-        await signOut();
-    } catch (error) {
-        console.error("Error during sign-out:", error);
-    }
-}
+    return signOut();
+};
