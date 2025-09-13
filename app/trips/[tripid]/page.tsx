@@ -16,6 +16,7 @@ export default async function TripDetail({ params }: { params: { tripid: string 
 
   const trip = await prisma.trip.findFirst({
     where: { id: tripid, userId: session.user?.id },
+    include: { Location: true },
   });
 
   console.log(trip);
@@ -24,5 +25,11 @@ export default async function TripDetail({ params }: { params: { tripid: string 
     return <div> Trip not found.</div>;
   }
 
-  return <TripDetailClient trip={trip} />;
+  // map Prisma’s `Location` relation to the `locations` property expected by TripDetailClient
+  const tripWithLocations = {
+    ...trip,
+    locations: trip.Location
+  };
+
+  return <TripDetailClient trip={tripWithLocations} />;
 }
